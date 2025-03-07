@@ -101,7 +101,6 @@ const Header: React.FC<HeaderProps> = ({ isDarkMode, toggleTheme }) => {
         {/* Mobile Header */}
         <div className="flex md:hidden justify-between items-center">
           <Link to="/" className="flex items-center space-x-2">
-            <Film size={24} className="text-primary" />
             <h1 className="text-xl font-bold">
               <span className="text-primary">SevenX</span>
               <span className="text-gray-900 dark:text-white">Hub</span>

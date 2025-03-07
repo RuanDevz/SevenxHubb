@@ -6,8 +6,9 @@ const Footer: React.FC = () => {
   return (
     <footer className="bg-white dark:bg-gray-900 shadow-inner pt-8 pb-6">
       <div className="container mx-auto px-4">
-        <div className="flex flex-wrap">
-          <div className="w-full md:w-4/12 mb-6 md:mb-0">
+        <div className="flex flex-wrap justify-between">
+          {/* Logo Section */}
+          <div className="w-full md:w-4/12 mb-6  md:mb-0">
             <div className="flex items-center space-x-2 mb-4">
               <h2 className="text-xl font-bold">
                 <span className="text-primary">SevenX</span>
@@ -15,11 +16,11 @@ const Footer: React.FC = () => {
               </h2>
             </div>
             <p className="text-gray-600 dark:text-gray-400 mb-4">
-              A modern video streaming platform with DoodStream integration.
+              SevenXHub is a platform dedicated to adult entertainment
             </p>
-
           </div>
-          
+
+          {/* Navigation Section */}
           <div className="w-full md:w-2/12 mb-6 md:mb-0">
             <h3 className="text-gray-900 dark:text-white font-semibold mb-4">Navigation</h3>
             <ul className="space-y-2">
@@ -40,7 +41,8 @@ const Footer: React.FC = () => {
               </li>
             </ul>
           </div>
-          
+
+          {/* Categories Section */}
           <div className="w-full md:w-2/12 mb-6 md:mb-0">
             <h3 className="text-gray-900 dark:text-white font-semibold mb-4">Categories</h3>
             <ul className="space-y-2">
@@ -61,18 +63,32 @@ const Footer: React.FC = () => {
               </li>
             </ul>
           </div>
-          
+
+          {/* Contact Section */}
           <div className="w-full md:w-4/12">
-            <h3 className="text-gray-900 dark:text-white font-semibold mb-4">About</h3>
+            <h3 className="text-gray-900 dark:text-white font-semibold mb-4">Contact</h3>
             <p className="text-gray-600 dark:text-gray-400 mb-4">
-              SevenXHub provides a seamless video streaming experience with a modern interface and powerful features.
+              DMCA@SevenXHub.com
             </p>
             <p className="text-gray-600 dark:text-gray-400 flex items-center">
               Made with <Heart size={16} className="mx-1 text-primary" /> in 2025
             </p>
+            {/* Social Links */}
+            <div className="mt-4 flex space-x-4">
+              <a href="#" className="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">
+                <Github size={20} />
+              </a>
+              <a href="#" className="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">
+                <Twitter size={20} />
+              </a>
+              <a href="#" className="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">
+                <Film size={20} />
+              </a>
+            </div>
           </div>
         </div>
-        
+
+        {/* Footer Bottom Section */}
         <div className="border-t border-gray-200 dark:border-gray-800 mt-6 pt-6 text-center">
           <p className="text-gray-600 dark:text-gray-400 text-sm">
             &copy; {new Date().getFullYear()} SevenXHub. All rights reserved.

@@ -1,6 +1,6 @@
 import { ApiResponse, VideoFile } from '../types';
 
-const API_KEY = '497584ycgrio4h93tbtz0u';
+const API_KEY = '497584qejr1wupib05xgd0';
 const BASE_URL = 'https://doodapi.com/api';
 const PROXY_URL = 'https://corsproxy.io/?';
 

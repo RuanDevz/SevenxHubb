@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Clock, Calendar, HardDrive, Eye, ChevronLeft } from 'lucide-react';
+import { Clock, Calendar, Download, Eye, ChevronLeft } from 'lucide-react';
 import { getVideoEmbedUrl, getVideoInfo, fetchVideos_old } from '../services/api';
 import { Video, DoodStreamResponse } from '../types';
 
@@ -47,12 +47,12 @@ const VideoPlayerPage: React.FC = () => {
     const loadRelatedVideos = async () => {
       try {
         setIsLoadingRelated(true);
-        const response: DoodStreamResponse = await fetchVideos_old(1, 8);
+        const response: DoodStreamResponse = await fetchVideos_old(1, 15);
         
         if (response && response.result === 999 && response.data) {
           // Filter out the current video if it's in the results
           const filtered = response.data.filter(v => v.file_code !== fileCode);
-          setRelatedVideos(filtered.slice(0, 6)); // Limit to 6 related videos
+          setRelatedVideos(filtered.slice(0, 15)); // Show 15 related videos
         }
       } catch (err) {
         console.error('Error loading related videos:', err);
@@ -79,17 +79,6 @@ const VideoPlayerPage: React.FC = () => {
       month: 'long', 
       day: 'numeric' 
     });
-  };
-
-  const formatFileSize = (sizeInBytes: string) => {
-    const size = parseInt(sizeInBytes, 10);
-    if (size < 1024 * 1024) {
-      return `${(size / 1024).toFixed(2)} KB`;
-    } else if (size < 1024 * 1024 * 1024) {
-      return `${(size / (1024 * 1024)).toFixed(2)} MB`;
-    } else {
-      return `${(size / (1024 * 1024 * 1024)).toFixed(2)} GB`;
-    }
   };
 
   if (isLoading) {
@@ -128,91 +117,111 @@ const VideoPlayerPage: React.FC = () => {
         <span>Back to Home</span>
       </Link>
       
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden mb-8">
-        <div className="aspect-video w-full">
-          <iframe
-            src={getVideoEmbedUrl(video.file_code)}
-            className="w-full h-full"
-            frameBorder="0"
-            scrolling="no"
-            allowFullScreen
-            title={video.title}
-          ></iframe>
+      <div className="flex flex-col lg:flex-row gap-6">
+        {/* Left Side - Ad Space */}
+        <div className="lg:w-1/6 bg-gray-800 rounded-lg p-4 h-[600px] flex items-center justify-center">
+          <span className="text-gray-400">Ad Space</span>
         </div>
-        
-        <div className="p-6">
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-            {video.title}
-          </h1>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-            <div className="flex items-center text-gray-600 dark:text-gray-400"> 
-              <Calendar size={18} className="mr-2" />
-              <span>{formatDate(video.uploaded)}</span>
+
+        {/* Main Content */}
+        <div className="lg:w-1/2">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden mb-8">
+            <div className="aspect-video w-full">
+              <iframe
+                src={getVideoEmbedUrl(video.file_code)}
+                className="w-full h-full"
+                frameBorder="0"
+                scrolling="no"
+                allowFullScreen
+                title={video.title}
+              ></iframe>
             </div>
             
-            <div className="flex items-center text-gray-600 dark:text-gray-400">
-              <Clock size={18} className="mr-2" />
-              <span>{formatDuration(video.length)}</span>
-            </div>
-            
-            <div className="flex items-center text-gray-600 dark:text-gray-400">
-              <Eye size={18} className="mr-2" />
-              <span>{video.views?.toLocaleString() || '0'} views</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <div className="mb-8">
-        <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
-          Related Videos
-        </h2>
-        
-        {isLoadingRelated ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {Array.from({ length: 3 }).map((_, index) => (
-              <div key={index} className="animate-pulse">
-                <div className="aspect-video bg-gray-300 dark:bg-gray-700 rounded-lg"></div>
-                <div className="mt-2 h-4 bg-gray-300 dark:bg-gray-700 rounded w-3/4"></div>
-                <div className="mt-2 h-3 bg-gray-300 dark:bg-gray-700 rounded w-1/2"></div>
-              </div>
-            ))}
-          </div>
-        ) : relatedVideos.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {relatedVideos.map((video) => (
-              <Link 
-                key={video.file_code}
-                to={`/video/${video.file_code}`}
-                className="block overflow-hidden rounded-lg shadow-lg transition-all duration-300 hover:scale-105 bg-white dark:bg-gray-800"
-              >
-                <div className="relative aspect-video overflow-hidden">
-                  <img 
-                    src={video.splash_img || 'https://images.unsplash.com/photo-1611162616475-46b635cb6868?q=80&w=1974&auto=format&fit=crop'} 
-                    alt={video.title}
-                    className="w-full h-full object-cover"
-                    loading="lazy"
-                  />
-                  <div className="absolute bottom-2 right-2 bg-black bg-opacity-70 text-white text-xs px-2 py-1 rounded">
-                    {formatDuration(video.length)}
-                  </div>
+            <div className="p-6">
+              <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+                {video.title}
+              </h1>
+              
+              <div className="flex flex-wrap items-center gap-4 text-gray-600 dark:text-gray-400">
+                <div className="flex items-center">
+                  <Calendar size={18} className="mr-2" />
+                  <span>{formatDate(video.uploaded || video.created || new Date().toISOString())}</span>
                 </div>
                 
-                <div className="p-4">
-                  <h3 className="text-lg font-semibold line-clamp-1 text-gray-900 dark:text-white">
-                    {video.title}
-                  </h3>
-                  <div className="mt-2 text-xs text-gray-500 dark:text-gray-500">
-                    {video.views.toLocaleString()} views
-                  </div>
+                <div className="flex items-center">
+                  <Clock size={18} className="mr-2" />
+                  <span>{formatDuration(video.length)}</span>
                 </div>
-              </Link>
-            ))}
+                
+                <div className="flex items-center">
+                  <Eye size={18} className="mr-2" />
+                  <span>{video.views?.toLocaleString() || '0'} views</span>
+                </div>
+
+                <a
+                  href={video.download_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center text-primary hover:text-red-700 transition-colors"
+                >
+                  <Download size={18} className="mr-2" />
+                  <span>Download</span>
+                </a>
+              </div>
+            </div>
           </div>
-        ) : (
-          <p className="text-gray-600 dark:text-gray-400">No related videos found</p>
-        )}
+        </div>
+
+        {/* Right Side - Related Videos */}
+        <div className="lg:w-1/3">
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
+            Related Videos
+          </h2>
+          
+          {isLoadingRelated ? (
+            <div className="space-y-4">
+              {Array.from({ length: 5 }).map((_, index) => (
+                <div key={index} className="animate-pulse">
+                  <div className="aspect-video bg-gray-300 dark:bg-gray-700 rounded-lg"></div>
+                  <div className="mt-2 h-4 bg-gray-300 dark:bg-gray-700 rounded w-3/4"></div>
+                </div>
+              ))}
+            </div>
+          ) : relatedVideos.length > 0 ? (
+            <div className="space-y-4">
+              {relatedVideos.map((video) => (
+                <Link 
+                  key={video.file_code}
+                  to={`/video/${video.file_code}`}
+                  className="flex gap-4 group hover:bg-gray-800 p-2 rounded-lg transition-colors"
+                >
+                  <div className="w-40 aspect-video relative rounded-lg overflow-hidden">
+                    <img 
+                      src={video.splash_img || video.single_img} 
+                      alt={video.title}
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                    />
+                    <div className="absolute bottom-1 right-1 bg-black/70 text-white text-xs px-1 rounded">
+                      {formatDuration(video.length)}
+                    </div>
+                  </div>
+                  
+                  <div className="flex-1">
+                    <h3 className="text-sm font-medium line-clamp-2 text-gray-200 group-hover:text-primary transition-colors">
+                      {video.title}
+                    </h3>
+                    <div className="mt-1 text-xs text-gray-400">
+                      {video.views.toLocaleString()} views
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <p className="text-gray-600 dark:text-gray-400">No related videos found</p>
+          )}
+        </div>
       </div>
     </div>
   );

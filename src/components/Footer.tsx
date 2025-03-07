@@ -75,15 +75,7 @@ const Footer: React.FC = () => {
             </p>
             {/* Social Links */}
             <div className="mt-4 flex space-x-4">
-              <a href="#" className="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">
-                <Github size={20} />
-              </a>
-              <a href="#" className="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">
-                <Twitter size={20} />
-              </a>
-              <a href="#" className="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary">
-                <Film size={20} />
-              </a>
+
             </div>
           </div>
         </div>
